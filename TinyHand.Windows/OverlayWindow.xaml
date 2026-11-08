@@ -1,0 +1,16 @@
+<Window x:Class="TinyHand.Windows.OverlayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False"
+        AllowsTransparency="True" Background="#01000000" Topmost="True"
+        ShowActivated="False">
+  <Canvas x:Name="DrawingSurface" ClipToBounds="False">
+    <Image x:Name="HandImage" Width="220" Height="220"
+           Source="/TinyHand;component/assets/hand_lavender.png"
+           Stretch="Uniform" RenderTransformOrigin="0.5,1"
+           IsHitTestVisible="False" />
+    <Ellipse x:Name="LaserDot" Width="22" Height="22"
+             Fill="#FFFF291F" Stroke="White" StrokeThickness="2"
+             IsHitTestVisible="False" Visibility="Collapsed" />
+  </Canvas>
+</Window>

@@ -1,4 +1,4 @@
-name: Build
+name: Windows build
 
 on:
   push:
@@ -7,9 +7,20 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: windows-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-      - name: Build (universal)
-        run: swift build -c release --arch arm64 --arch x86_64
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Build
+        run: dotnet build TinyHand.Windows/TinyHand.Windows.csproj --configuration Release
+      - name: Publish Windows x64
+        run: dotnet publish TinyHand.Windows/TinyHand.Windows.csproj --configuration Release --runtime win-x64 --self-contained true -p:PublishSingleFile=true -o dist/win-x64
+      - name: Publish Windows ARM64
+        run: dotnet publish TinyHand.Windows/TinyHand.Windows.csproj --configuration Release --runtime win-arm64 --self-contained true -p:PublishSingleFile=true -o dist/win-arm64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TinyHand-Windows
+          path: dist/
